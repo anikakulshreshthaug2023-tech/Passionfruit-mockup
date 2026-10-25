@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passionfruit - Monthly Client Report Deck</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Caveat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pf: {
+                            yellow: '#FFC83B',
+                            yellowLight: '#FFDE7D',
+                            yellowDark: '#E5AF20',
+                            green: '#4A8B3B',
+                            greenDark: '#336327',
+                            black: '#000000',
+                            charcoal: '#18181B',
+                            cream: '#FFFDF5',
+                            cardBg: '#FFFFFF'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        script: ['Caveat', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #121212;
+            color: #18181B;
+        }
+
+        /* Aspect Ratio 16:9 for Slides */
+        .slide-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            max-height: calc(100vh - 120px);
+        }
+
+        .seed-pattern {
+            background-image: radial-gradient(#000000 20%, transparent 20%), radial-gradient(#000000 20%, transparent 20%);
+            background-position: 0 0, 10px 10px;
+            background-size: 20px 20px;
+            opacity: 0.04;
+        }
+
+        /* Custom Scrollbar for printable view */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #18181B;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFC83B;
+            border-radius: 4px;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background-color: white !important;
+                color: black !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-slide {
+                page-break-after: always;
+                aspect-ratio: 16 / 9 !important;
+                width: 100% !important;
+                height: auto !important;
+                margin-bottom: 2rem;
+                box-shadow: none !important;
+                border: 2px solid #000 !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-pf-yellow selection:text-black">
+
+    <!-- TOP NAV CONTROLS (NON-PRINTABLE) -->
+    <header class="no-print bg-pf-charcoal text-white border-b border-zinc-800 px-4 py-3 sticky top-0 z-50 flex flex-wrap justify-between items-center gap-4">
+        <div class="flex items-center space-x-3">
+            <!-- Brand Logo SVG Icon -->
+            <div class="w-9 h-9 flex items-center justify-center">
+                <svg viewBox="0 0 100 100" class="w-full h-full">
+                    <path d="M 20 20 L 80 20 L 80 30 L 30 30 L 30 80 L 80 80 L 80 50 L 90 50 L 90 90 L 10 90 L 10 20 Z" fill="#FFC83B"/>
+                    <ellipse cx="50" cy="55" rx="22" ry="17" fill="#FFC83B" transform="rotate(-15 50 55)"/>
+                    <path d="M 62 36 C 62 30, 72 25, 78 28 C 76 35, 68 40, 62 36 Z" fill="#4A8B3B"/>
+                    <path d="M 68 40 C 73 38, 83 40, 85 47 C 78 50, 70 45, 68 40 Z" fill="#4A8B3B"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="font-extrabold text-base leading-tight tracking-tight text-white flex items-center gap-2">
+                    PASSIONFRUIT <span class="text-xs bg-pf-yellow text-black font-bold px-2 py-0.5 rounded-full">SEO + AEO</span>
+                </h1>
+                <p class="text-xs text-zinc-400">Monthly Client Performance Deck — Q4 Growth Report</p>
+            </div>
+        </div>
+
+        <!-- Mode Toggle & Navigation -->
+        <div class="flex items-center space-x-3">
+            <!-- Navigation Controls -->
+            <div class="flex items-center bg-zinc-800 rounded-lg p-1 border border-zinc-700">
+                <button id="prevBtn" onclick="changeSlide(-1)" class="px-3 py-1.5 rounded text-xs font-semibold hover:bg-zinc-700 transition flex items-center space-x-1 text-zinc-200">
+                    <span>←</span>
+                    <span class="hidden sm:inline">Prev</span>
+                </button>
+                <span id="slideIndicator" class="px-3 text-xs font-bold text-pf-yellow min-w-[60px] text-center">Slide 1 / 5</span>
+                <button id="nextBtn" onclick="changeSlide(1)" class="px-3 py-1.5 rounded text-xs font-semibold hover:bg-zinc-700 transition flex items-center space-x-1 text-zinc-200">
+                    <span class="hidden sm:inline">Next</span>
+                    <span>→</span>
+                </button>
+            </div>
+
+            <!-- Display Mode Switcher -->
+            <button onclick="toggleViewMode()" id="viewModeBtn" class="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs font-bold px-3 py-2 rounded-lg transition flex items-center gap-2 text-white">
+                <svg class="w-4 h-4 text-pf-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                </svg>
+                <span id="viewModeText">Scroll View</span>
+            </button>
+
+            <!-- Export / Print PDF Button -->
+            <button onclick="window.print()" class="bg-pf-yellow hover:bg-pf-yellowDark text-black text-xs font-extrabold px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-md">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                </svg>
+                <span>Export PDF</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- CAROUSEL VIEW CONTAINER -->
+    <main id="carouselView" class="flex-1 flex flex-col items-center justify-center p-4 md:p-8 max-w-7xl mx-auto w-full">
+        <div id="slideViewport" class="w-full slide-container bg-pf-cream rounded-2xl shadow-2xl border-4 border-black overflow-hidden relative flex flex-col justify-between">
+            
+            <!-- SLIDE CONTENT INSERTED DYNAMICALLY HERE -->
+            <div id="slideContent" class="h-full w-full flex flex-col justify-between p-6 md:p-10 relative">
+                <!-- Slide Header Banner -->
+                <!-- Rendered by JS -->
+            </div>
+
+        </div>
+
+        <!-- THUMBNAIL NAV BAR -->
+        <div class="no-print mt-6 flex items-center justify-center gap-3 w-full overflow-x-auto pb-2">
+            <button onclick="goToSlide(0)" class="thumb-btn border-2 border-pf-yellow bg-zinc-900 text-white rounded-lg p-2.5 text-xs text-left min-w-[140px] hover:border-pf-yellow transition shadow">
+                <div class="font-bold text-pf-yellow">Slide 1</div>
+                <div class="text-[10px] text-zinc-400 truncate">Executive Summary</div>
+            </button>
+            <button onclick="goToSlide(1)" class="thumb-btn border-2 border-zinc-700 bg-zinc-900 text-white rounded-lg p-2.5 text-xs text-left min-w-[140px] hover:border-pf-yellow transition shadow">
+                <div class="font-bold text-zinc-300">Slide 2</div>
+                <div class="text-[10px] text-zinc-400 truncate">Performance Scorecard</div>
+            </button>
+            <button onclick="goToSlide(2)" class="thumb-btn border-2 border-zinc-700 bg-zinc-900 text-white rounded-lg p-2.5 text-xs text-left min-w-[140px] hover:border-pf-yellow transition shadow">
+                <div class="font-bold text-zinc-300">Slide 3</div>
+                <div class="text-[10px] text-zinc-400 truncate">Strategic Insights</div>
+            </button>
+            <button onclick="goToSlide(3)" class="thumb-btn border-2 border-zinc-700 bg-zinc-900 text-white rounded-lg p-2.5 text-xs text-left min-w-[140px] hover:border-pf-yellow transition shadow">
+                <div class="font-bold text-zinc-300">Slide 4</div>
+                <div class="text-[10px] text-zinc-400 truncate">Action Roadmap</div>
+            </button>
+            <button onclick="goToSlide(4)" class="thumb-btn border-2 border-zinc-700 bg-zinc-900 text-white rounded-lg p-2.5 text-xs text-left min-w-[140px] hover:border-pf-yellow transition shadow">
+                <div class="font-bold text-zinc-300">Slide 5</div>
+                <div class="text-[10px] text-zinc-400 truncate">Data Governance</div>
+            </button>
+        </div>
+    </main>
+
+    <!-- PRINT / ALL SLIDES SCROLL VIEW (HIDDEN BY DEFAULT) -->
+    <main id="printView" class="hidden flex-1 p-6 max-w-7xl mx-auto w-full space-y-8">
+        <!-- JS renders all slides sequentially here -->
+    </main>
+
+    <!-- FOOTER INFO -->
+    <footer class="no-print bg-pf-charcoal text-zinc-500 text-xs py-3 px-6 text-center border-t border-zinc-800">
+        Use Left/Right Keyboard Arrow Keys to Navigate Slides • Powered by <span class="text-pf-yellow font-bold">Passionfruit SEO + AEO Engine</span>
+    </footer>
+
+    <!-- LOGO TEMPLATE reusable SVG string -->
+    <script>
+        const LOGO_SVG = `
+            <div class="flex items-center gap-3 relative z-10">
+                <div class="w-10 h-10 flex-shrink-0">
+                    <svg viewBox="0 0 100 100" class="w-full h-full drop-shadow">
+                        <!-- Black bracket frame from logo image -->
+                        <path d="M 12 12 L 88 12 L 88 24 L 24 24 L 24 88 L 88 88 L 88 48 L 96 48 L 96 96 L 4 96 L 4 12 Z" fill="#000000"/>
+                        <!-- Passionfruit center icon -->
+                        <ellipse cx="50" cy="56" rx="24" ry="19" fill="#FFC83B" transform="rotate(-15 50 56)"/>
+                        <!-- Highlight spot -->
+                        <ellipse cx="44" cy="48" rx="6" ry="4" fill="#FFEAA5" transform="rotate(-15 44 48)"/>
+                        <!-- Leaves -->
+                        <path d="M 64 34 C 64 27, 75 22, 82 25 C 80 33, 71 39, 64 34 Z" fill="#4A8B3B"/>
+                        <path d="M 70 39 C 76 37, 87 39, 89 47 C 81 50, 72 45, 70 39 Z" fill="#4A8B3B"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="block font-black text-xl tracking-tight leading-none text-black">PASSIONFRUIT</span>
+                    <span class="font-script text-lg text-pf-greenDark leading-none font-bold">Win Search – SEO + AEO</span>
+                </div>
+            </div>
+        `;
+
+        const PASSION_SEEDS_DECORATION = `
+            <div class="absolute right-2 top-2 z-0 opacity-40 pointer-events-none select-none">
+                <svg width="50" height="50" viewBox="0 0 100 100" fill="#000000">
+                    <ellipse cx="20" cy="20" rx="4" ry="8" transform="rotate(25 20 20)"/>
+                    <ellipse cx="45" cy="15" rx="4" ry="8" transform="rotate(-15 45 15)"/>
+                    <ellipse cx="75" cy="25" rx="4" ry="8" transform="rotate(40 75 25)"/>
+                    <ellipse cx="30" cy="50" rx="4" ry="8" transform="rotate(-30 30 50)"/>
+                    <ellipse cx="60" cy="55" rx="4" ry="8" transform="rotate(10 60 55)"/>
+                    <ellipse cx="85" cy="65" rx="4" ry="8" transform="rotate(-45 85 65)"/>
+                </svg>
+            </div>
+        `;
+
+        // Slide Data Definitions
+        const slidesData = [
+            // SLIDE 1: EXECUTIVE SUMMARY
+            {
+                slideNum: 1,
+                title: "Executive Summary",
+                subtitle: "Monthly Organic Strategy & Answer Engine Optimization Overview",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
+                        <!-- Quadrant 1: Key Wins -->
+                        <div class="bg-white border-2 border-black rounded-xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden">
+                            <div class="border-b-2 border-pf-yellow pb-2 flex items-center justify-between">
+                                <h3 class="font-extrabold text-black text-base flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-pf-green rounded-full inline-block"></span>
+                                    1. Key Wins & Milestones
+                                </h3>
+                                <span class="font-script text-pf-green text-sm font-bold">+28% MoM Organic Traffic</span>
+                            </div>
+                            <ul class="text-xs space-y-2 text-zinc-800 mt-2 font-medium">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-pf-green font-bold">✓</span>
+                                    <span>Captured 14 AI Overview snippet spots across high-intent commercial keywords.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-pf-green font-bold">✓</span>
+                                    <span>Launched 12 optimized cluster articles targeting Perplexity and ChatGPT search queries.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-pf-green font-bold">✓</span>
+                                    <span>Core web vitals score increased from 72 to 94 on key landing pages.</span>
+                                </li>
+                            </ul>
+                            <div class="mt-2 text-[11px] bg-emerald-50 text-pf-greenDark font-bold px-2 py-1 rounded border border-emerald-200">
+                                Impact: Revenue driven by Search reached $1.2M this month.
+                            </div>
+                        </div>
+
+                        <!-- Quadrant 2: Primary Metrics -->
+                        <div class="bg-white border-2 border-black rounded-xl p-4 flex flex-col justify-between shadow-sm">
+                            <div class="border-b-2 border-pf-yellow pb-2 flex items-center justify-between">
+                                <h3 class="font-extrabold text-black text-base flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-pf-yellow rounded-full inline-block"></span>
+                                    2. Primary Growth KPI Highlights
+                                </h3>
+                                <span class="font-script text-black text-sm font-bold">Search + AEO Performance</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 mt-2">
+                                <div class="bg-pf-cream border border-black p-2.5 rounded-lg text-center">
+                                    <p class="text-[10px] uppercase tracking-wider font-bold text-zinc-500">Organic Sessions</p>
+                                    <p class="text-xl font-extrabold text-black">184,500</p>
+                                    <p class="text-[11px] font-bold text-pf-green">↑ 18.4% vs prev month</p>
+                                </div>
+                                <div class="bg-pf-cream border border-black p-2.5 rounded-lg text-center">
+                                    <p class="text-[10px] uppercase tracking-wider font-bold text-zinc-500">AEO Brand Citations</p>
+                                    <p class="text-xl font-extrabold text-black">4,210</p>
+                                    <p class="text-[11px] font-bold text-pf-green">↑ 42% ChatGPT/Perplexity</p>
+                                </div>
+                                <div class="bg-pf-cream border border-black p-2.5 rounded-lg text-center">
+                                    <p class="text-[10px] uppercase tracking-wider font-bold text-zinc-500">Conv. Rate (Organic)</p>
+                                    <p class="text-xl font-extrabold text-black">3.42%</p>
+                                    <p class="text-[11px] font-bold text-pf-green">↑ +0.35% MoM</p>
+                                </div>
+                                <div class="bg-pf-cream border border-black p-2.5 rounded-lg text-center">
+                                    <p class="text-[10px] uppercase tracking-wider font-bold text-zinc-500">Page 1 Rankings</p>
+                                    <p class="text-xl font-extrabold text-black">412</p>
+                                    <p class="text-[11px] font-bold text-pf-green">↑ +38 new keywords</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quadrant 3: Commercial Risk -->
+                        <div class="bg-white border-2 border-black rounded-xl p-4 flex flex-col justify-between shadow-sm">
+                            <div class="border-b-2 border-red-400 pb-2 flex items-center justify-between">
+                                <h3 class="font-extrabold text-black text-base flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-red-500 rounded-full inline-block"></span>
+                                    3. Commercial Risks & Bottlenecks
+                                </h3>
+                                <span class="font-script text-red-600 text-sm font-bold">Action Needed</span>
+                            </div>
+                            <ul class="text-xs space-y-2 text-zinc-800 mt-2 font-medium">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-500 font-bold">⚠</span>
+                                    <span>Dev team deployment delay on Schema markup fixes (ETA pending sign-off).</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-500 font-bold">⚠</span>
+                                    <span>Competitor aggressive backlink sprint on core product category pages.</span>
+                                </li>
+                            </ul>
+                            <div class="mt-2 text-[11px] bg-red-50 text-red-700 font-bold px-2 py-1 rounded border border-red-200">
+                                Mitigation: Priority dev ticket submitted; content refresh scheduled for next Tuesday.
+                            </div>
+                        </div>
+
+                        <!-- Quadrant 4: Priorities -->
+                        <div class="bg-white border-2 border-black rounded-xl p-4 flex flex-col justify-between shadow-sm">
+                            <div class="border-b-2 border-pf-yellow pb-2 flex items-center justify-between">
+                                <h3 class="font-extrabold text-black text-base flex items-center gap-2">
+                                    <span class="w-3 h-3 bg-black rounded-full inline-block"></span>
+                                    4. Next Month Priorities
+                                </h3>
+                                <span class="font-script text-pf-greenDark text-sm font-bold">Focus Areas</span>
+                            </div>
+                            <ul class="text-xs space-y-2 text-zinc-800 mt-2 font-medium">
+                                <li class="flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-pf-yellow rounded-full"></span>
+                                    <span>Expand Answer Engine Optimization (AEO) entity maps for product line B.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-pf-yellow rounded-full"></span>
+                                    <span>Execute digital PR link acquisition campaign targeting Tier-1 industry publications.</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-pf-yellow rounded-full"></span>
+                                    <span>Complete technical audit remediation for international domain subfolders.</span>
+                                </li>
+                            </ul>
+                            <div class="mt-2 text-[11px] bg-zinc-100 text-black font-bold px-2 py-1 rounded border border-zinc-300">
+                                Expected Growth Impact: +15% organic lead velocity.
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            // SLIDE 2: PERFORMANCE SCORECARD
+            {
+                slideNum: 2,
+                title: "Performance Scorecard",
+                subtitle: "Channel-by-Channel Breakdown Across SEO & AEO Drivers",
+                content: `
+                    <div class="flex flex-col h-full justify-between space-y-4">
+                        <!-- Scorecard Grid Header -->
+                        <div class="grid grid-cols-4 gap-3">
+                            <div class="bg-pf-yellow border-2 border-black p-3 rounded-xl shadow-sm text-center">
+                                <p class="text-[11px] font-black uppercase tracking-wider text-black">GA4 Organic Sessions</p>
+                                <p class="text-2xl font-black text-black">184,500</p>
+                                <span class="inline-block mt-1 text-xs font-bold text-pf-greenDark bg-white px-2 py-0.5 rounded-full border border-black">↑ +18.4% MoM</span>
+                            </div>
+                            <div class="bg-white border-2 border-black p-3 rounded-xl shadow-sm text-center">
+                                <p class="text-[11px] font-black uppercase tracking-wider text-zinc-600">Google Search Clicks</p>
+                                <p class="text-2xl font-black text-black">142,100</p>
+                                <span class="inline-block mt-1 text-xs font-bold text-pf-green bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-300">↑ +12.1% MoM</span>
+                            </div>
+                            <div class="bg-white border-2 border-black p-3 rounded-xl shadow-sm text-center">
+                                <p class="text-[11px] font-black uppercase tracking-wider text-zinc-600">Perplexity/LLM Referrals</p>
+                                <p class="text-2xl font-black text-black">19,800</p>
+                                <span class="inline-block mt-1 text-xs font-bold text-pf-green bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-300">↑ +64.5% MoM</span>
+                            </div>
+                            <div class="bg-white border-2 border-black p-3 rounded-xl shadow-sm text-center">
+                                <p class="text-[11px] font-black uppercase tracking-wider text-zinc-600">Total Conv. Value</p>
+                                <p class="text-2xl font-black text-black">$1,240,000</p>
+                                <span class="inline-block mt-1 text-xs font-bold text-pf-green bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-300">↑ +22.0% MoM</span>
+                            </div>
+                        </div>
+
+                        <!-- Full Scorecard Data Table -->
+                        <div class="bg-white border-2 border-black rounded-xl overflow-hidden shadow-sm flex-1 flex flex-col justify-between">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-pf-charcoal text-white font-bold border-b border-black">
+                                        <th class="p-3">Channel / Pillar</th>
+                                        <th class="p-3">Current Month</th>
+                                        <th class="p-3">Previous Month</th>
+                                        <th class="p-3">MoM Delta</th>
+                                        <th class="p-3">Target Benchmark</th>
+                                        <th class="p-3">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-zinc-200 font-medium text-zinc-800">
+                                    <tr class="hover:bg-pf-cream transition">
+                                        <td class="p-3 font-bold text-black flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-pf-yellow"></span> GA4 Organic Search Sessions
+                                        </td>
+                                        <td class="p-3 font-semibold">184,500</td>
+                                        <td class="p-3 text-zinc-500">155,800</td>
+                                        <td class="p-3 font-bold text-pf-green">+18.4%</td>
+                                        <td class="p-3 text-zinc-600">165,000</td>
+                                        <td class="p-3"><span class="bg-emerald-100 text-pf-greenDark px-2 py-0.5 rounded font-bold text-[10px]">EXCEEDED</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-pf-cream transition">
+                                        <td class="p-3 font-bold text-black flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-pf-yellow"></span> Search Console Total Impressions
+                                        </td>
+                                        <td class="p-3 font-semibold">4.82M</td>
+                                        <td class="p-3 text-zinc-500">4.10M</td>
+                                        <td class="p-3 font-bold text-pf-green">+17.5%</td>
+                                        <td class="p-3 text-zinc-600">4.50M</td>
+                                        <td class="p-3"><span class="bg-emerald-100 text-pf-greenDark px-2 py-0.5 rounded font-bold text-[10px]">EXCEEDED</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-pf-cream transition">
+                                        <td class="p-3 font-bold text-black flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-pf-yellow"></span> Average Search Position
+                                        </td>
+                                        <td class="p-3 font-semibold">11.4</td>
+                                        <td class="p-3 text-zinc-500">13.8</td>
+                                        <td class="p-3 font-bold text-pf-green">+2.4 spots</td>
+                                        <td class="p-3 text-zinc-600">12.0</td>
+                                        <td class="p-3"><span class="bg-emerald-100 text-pf-greenDark px-2 py-0.5 rounded font-bold text-[10px]">EXCEEDED</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-pf-cream transition">
+                                        <td class="p-3 font-bold text-black flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-pf-yellow"></span> AEO Engine Visibility Score
+                                        </td>
+                                        <td class="p-3 font-semibold">88.5%</td>
+                                        <td class="p-3 text-zinc-500">62.0%</td>
+                                        <td class="p-3 font-bold text-pf-green">+26.5%</td>
+                                        <td class="p-3 text-zinc-600">75.0%</td>
+                                        <td class="p-3"><span class="bg-emerald-100 text-pf-greenDark px-2 py-0.5 rounded font-bold text-[10px]">EXCEEDED</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-pf-cream transition">
+                                        <td class="p-3 font-bold text-black flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-pf-yellow"></span> High Intent Conversions
+                                        </td>
+                                        <td class="p-3 font-semibold">6,310</td>
+                                        <td class="p-3 text-zinc-500">5,480</td>
+                                        <td class="p-3 font-bold text-pf-green">+15.1%</td>
+                                        <td class="p-3 text-zinc-600">6,000</td>
+                                        <td class="p-3"><span class="bg-emerald-100 text-pf-greenDark px-2 py-0.5 rounded font-bold text-[10px]">EXCEEDED</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="bg-pf-cream p-2.5 px-4 text-[11px] font-bold text-zinc-700 flex justify-between items-center border-t border-zinc-200">
+                                <span>Data source: Google Analytics 4, Search Console API, Passionfruit AEO Tracker</span>
+                                <span class="font-script text-pf-green text-sm">Winning SEO + AEO simultaneously</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            // SLIDE 3: STRATEGIC INSIGHTS
+            {
+                slideNum: 3,
+                title: "Insights & Strategic Analysis",
+                subtitle: "What We Observed → What It Means → What We Recommend",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
+                        <!-- Column 1: Observation -->
+                        <div class="bg-white border-2 border-black rounded-xl p-4 flex flex-col justify-between shadow-sm relative">
+                            <div class="bg-pf-yellow text-black font-extrabold text-xs px-3 py-1 rounded-full w-max border border-black mb-3">
+                                STEP 1: OBSERVED
+                            </div>
+                            <h4 class="font-extrabold text-black text-base mb-2">AI Search Shift & Citation Patterns</h4>
+                            <p class="text-xs text-zinc-700 font-medium leading-relaxed mb-4">
+                                ChatGPT Search and Perplexity.ai are now sending 10.7% of total organic referral traffic. Queries with conversational intent show a 3x higher conversion rate than traditional keyword queries.
+                            </p>
+                            <div class="mt-auto bg-pf-cream border border-zinc-300 p-3 rounded-lg text-xs">
+                                <span class="font-bold text-black block mb-1">Key Finding:</span>
+                                Standard keywords flatlined; direct conversational prompts grew by +142%.
+                            </div>
+                        </div>
+
+                        <!-- Column 2: Meaning -->
+                        <div class="bg-white border-2 border-black rounded-xl p-4 flex flex-col justify-between shadow-sm relative">
+                            <div class="bg-black text-white font-extrabold text-xs px-3 py-1 rounded-full w-max mb-3">
+                                STEP 2: MEANING
+                            </div>
+                            <h4 class="font-extrabold text-black text-base mb-2">Entity Authority Over Traditional Backlinks</h4>
+                            <p class="text-xs text-zinc-700 font-medium leading-relaxed mb-4">
+                                Answer Engines rely heavily on structured Schema, clear JSON-LD entity definitions, and consensus content across third-party industry benchmarks rather than simple backlink count.
+                            </p>
+                            <div class="mt-auto bg-pf-cream border border-zinc-300 p-3 rounded-lg text-xs">
+                                <span class="font-bold text-black block mb-1">Strategic Shift:</span>
+                                Content must be formatted directly as structured answers for LLM crawlers.
+                            </div>
+                        </div>
+
+                        <!-- Column 3: Recommendation -->
+                        <div class="bg-white border-2 border-black rounded-xl p-4 flex flex-col justify-between shadow-sm relative">
+                            <div class="bg-pf-green text-white font-extrabold text-xs px-3 py-1 rounded-full w-max mb-3">
+                                STEP 3: RECOMMENDATION
+                            </div>
+                            <h4 class="font-extrabold text-black text-base mb-2">AEO First-Responder Architecture</h4>
+                            <p class="text-xs text-zinc-700 font-medium leading-relaxed mb-4">
+                                Restructure all core product category pages with inline FAQ schema, direct tabular summaries, and authoritative original data references to capture primary recommendation slots.
+                            </p>
+                            <div class="mt-auto bg-emerald-50 border border-emerald-300 p-3 rounded-lg text-xs">
+                                <span class="font-bold text-pf-greenDark block mb-1">Action Step:</span>
+                                Deploy Passionfruit AEO schema module across 45 primary URLs by next sprint.
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+
+            // SLIDE 4: ACTION ROADMAP
+            {
+                slideNum: 4,
+                title: "Action Roadmap & Dependencies",
+                subtitle: "Task Ownership, Deliverable Deadlines & Impact Matrix",
+                content: `
+                    <div class="bg-white border-2 border-black rounded-xl overflow-hidden shadow-sm h-full flex flex-col justify-between">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse text-xs">
+                                <thead>
+                                    <tr class="bg-pf-charcoal text-white font-bold border-b border-black">
+                                        <th class="p-3">Deliverable / Action Item</th>
+                                        <th class="p-3">Single-Point Owner</th>
+                                        <th class="p-3">Target Date</th>
+                                        <th class="p-3">Impact</th>
+                                        <th class="p-3">Dependencies / Blockers</th>
+                                        <th class="p-3">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-zinc-200 font-medium text-zinc-800">
+                                    <tr class="hover:bg-pf-cream">
+                                        <td class="p-3 font-bold text-black">AEO Schema & Entity Implementation</td>
+                                        <td class="p-3">Alex R. (Passionfruit)</td>
+                                        <td class="p-3">Nov 04, 2026</td>
+                                        <td class="p-3"><span class="bg-pf-yellow text-black px-2 py-0.5 rounded font-extrabold text-[10px]">HIGH</span></td>
+                                        <td class="p-3 text-zinc-500">Client Dev Team Code Freeze</td>
+                                        <td class="p-3"><span class="bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded font-bold text-[10px]">IN PROGRESS</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-pf-cream">
+                                        <td class="p-3 font-bold text-black">Top 10 Category Page Refresh</td>
+                                        <td class="p-3">Sarah M. (Content Lead)</td>
+                                        <td class="p-3">Nov 10, 2026</td>
+                                        <td class="p-3"><span class="bg-pf-yellow text-black px-2 py-0.5 rounded font-extrabold text-[10px]">HIGH</span></td>
+                                        <td class="p-3 text-zinc-500">Brand guidelines approval</td>
+                                        <td class="p-3"><span class="bg-emerald-100 text-pf-greenDark px-2 py-0.5 rounded font-bold text-[10px]">APPROVED</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-pf-cream">
+                                        <td class="p-3 font-bold text-black">Digital PR & Link Building Sprint</td>
+                                        <td class="p-3">Dave K. (Outreach)</td>
+                                        <td class="p-3">Nov 18, 2026</td>
+                                        <td class="p-3"><span class="bg-zinc-200 text-black px-2 py-0.5 rounded font-extrabold text-[10px]">MEDIUM</span></td>
+                                        <td class="p-3 text-zinc-500">Press release sign-off</td>
+                                        <td class="p-3"><span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold text-[10px]">SCHEDULED</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-pf-cream">
+                                        <td class="p-3 font-bold text-black">Internal Linking Graph Optimization</td>
+                                        <td class="p-3">Alex R. (Passionfruit)</td>
+                                        <td class="p-3">Nov 22, 2026</td>
+                                        <td class="p-3"><span class="bg-zinc-200 text-black px-2 py-0.5 rounded font-extrabold text-[10px]">MEDIUM</span></td>
+                                        <td class="p-3 text-zinc-500">None</td>
+                                        <td class="p-3"><span class="bg-emerald-100 text-pf-greenDark px-2 py-0.5 rounded font-bold text-[10px]">READY</span></td>
+                                    </tr>
+                                    <tr class="hover:bg-pf-cream">
+                                        <td class="p-3 font-bold text-black">Q4 Revenue Attribution Model Sync</td>
+                                        <td class="p-3">Analytics Team</td>
+                                        <td class="p-3">Nov 28, 2026</td>
+                                        <td class="p-3"><span class="bg-pf-yellow text-black px-2 py-0.5 rounded font-extrabold text-[10px]">HIGH</span></td>
+                                        <td class="p-3 text-zinc-500">CRM API Webhook Access</td>
+                                        <td class="p-3"><span class="bg-zinc-100 text-zinc-800 px-2 py-0.5 rounded font-bold text-[10px]">PENDING</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-pf-cream p-3 border-t-2 border-black flex justify-between items-center text-xs font-bold">
+                            <span class="text-zinc-700">Sprint Lead: Passionfruit Growth Strategy Unit</span>
+                            <span class="font-script text-pf-greenDark text-base">On Track for Q4 Deliverables</span>
+                        </div>
+                    </div>
+                `
+            },
+
+            // SLIDE 5: APPENDIX & GOVERNANCE
+            {
+                slideNum: 5,
+                title: "Appendix & Data Governance",
+                subtitle: "Methodology, KPI Definitions & Direct Portal Connections",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
+                        <!-- Left Panel: Glossary & Methodology -->
+                        <div class="bg-white border-2 border-black rounded-xl p-4 flex flex-col justify-between shadow-sm">
+                            <div>
+                                <h4 class="font-extrabold text-black text-sm mb-3 border-b-2 border-pf-yellow pb-1 flex items-center justify-between">
+                                    <span>KPI Definitions & Governance</span>
+                                    <span class="font-script text-pf-green text-sm">Verified Data Standard</span>
+                                </h4>
+                                <div class="space-y-3 text-xs text-zinc-700">
+                                    <div>
+                                        <span class="font-bold text-black">AEO (Answer Engine Optimization):</span>
+                                        <p class="text-[11px] text-zinc-600">The process of optimizing web assets specifically for conversational AI models (e.g., ChatGPT, Perplexity, Claude, Gemini) to cite your brand as the direct source.</p>
+                                    </div>
+                                    <div>
+                                        <span class="font-bold text-black">Organic Conv. Rate:</span>
+                                        <p class="text-[11px] text-zinc-600">Percentage of GA4 organic sessions that complete a primary lead form or checkout event within a 30-day attribution window.</p>
+                                    </div>
+                                    <div>
+                                        <span class="font-bold text-black">Revenue Driven Metric:</span>
+                                        <p class="text-[11px] text-zinc-600">Calculated via first-touch and multi-touch organic attribution models synced directly with CRM data.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 bg-pf-cream p-2.5 rounded border border-black text-[11px] font-medium text-zinc-800">
+                                Note: All analytics metrics are normalized to eliminate bot spam and crawler noise.
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Access Links & Sign-Off -->
+                        <div class="bg-white border-2 border-black rounded-xl p-4 flex flex-col justify-between shadow-sm">
+                            <div>
+                                <h4 class="font-extrabold text-black text-sm mb-3 border-b-2 border-pf-yellow pb-1">
+                                    Live Client Dashboards & Access Links
+                                </h4>
+                                <div class="space-y-2.5">
+                                    <a href="#" onclick="event.preventDefault();" class="flex items-center justify-between p-2.5 bg-pf-cream border border-black rounded-lg hover:bg-pf-yellow transition group">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="font-bold text-xs text-black">Google Analytics 4 Client Property</span>
+                                        </div>
+                                        <span class="text-xs font-bold text-black group-hover:underline">Open GA4 ↗</span>
+                                    </a>
+                                    <a href="#" onclick="event.preventDefault();" class="flex items-center justify-between p-2.5 bg-pf-cream border border-black rounded-lg hover:bg-pf-yellow transition group">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="font-bold text-xs text-black">Search Console Property Access</span>
+                                        </div>
+                                        <span class="text-xs font-bold text-black group-hover:underline">Open GSC ↗</span>
+                                    </a>
+                                    <a href="#" onclick="event.preventDefault();" class="flex items-center justify-between p-2.5 bg-pf-cream border border-black rounded-lg hover:bg-pf-yellow transition group">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="font-bold text-xs text-black">Passionfruit Real-Time Rank Tracker</span>
+                                        </div>
+                                        <span class="text-xs font-bold text-black group-hover:underline">Open Tracker ↗</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 p-3 bg-pf-charcoal text-white rounded-lg flex justify-between items-center">
+                                <div>
+                                    <p class="text-[10px] text-zinc-400 uppercase font-bold">Report Approved By</p>
+                                    <p class="text-xs font-bold text-pf-yellow">Passionfruit Lead Strategy Team</p>
+                                </div>
+                                <div class="font-script text-xl text-pf-yellow">
+                                    Passionfruit Certified
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let currentSlide = 0;
+        let isScrollView = false;
+
+        // Function to build individual slide HTML structure
+        function createSlideHTML(slide, isPrintMode = false) {
+            return `
+                <div class="${isPrintMode ? 'print-slide bg-pf-cream rounded-2xl p-6 border-4 border-black relative overflow-hidden mb-8 shadow-xl' : 'h-full w-full flex flex-col justify-between relative'}">
+                    ${PASSION_SEEDS_DECORATION}
+                    
+                    <!-- SLIDE TOP HEADER BAR -->
+                    <div class="flex justify-between items-start mb-4 pb-3 border-b-2 border-black relative z-10 pr-12">
+                        ${LOGO_SVG}
+                        <div class="text-right z-10">
+                            <span class="text-xs font-black uppercase tracking-widest text-zinc-400 block">Slide 0${slide.slideNum} / 05</span>
+                            <h2 class="text-xl font-extrabold text-black leading-tight">${slide.title}</h2>
+                            <p class="text-xs font-script text-pf-greenDark font-bold">${slide.subtitle}</p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE INNER BODY -->
+                    <div class="flex-1 my-2 relative z-10">
+                        ${slide.content}
+                    </div>
+
+                    <!-- SLIDE FOOTER BRAND BANNER -->
+                    <div class="mt-3 pt-2 border-t border-zinc-300 flex justify-between items-center text-[11px] text-zinc-600 font-semibold relative z-10">
+                        <div class="flex items-center gap-2">
+                            <span class="bg-pf-yellow text-black px-2 py-0.5 rounded font-black text-[10px] border border-black">$1B+ Revenue Driven</span>
+                            <span>Confidential • Prepared for Client Growth Team</span>
+                        </div>
+                        <div class="font-script text-pf-greenDark font-bold text-sm">
+                            Passionfruit — SEO + AEO Leadership
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render Carousel Slide
+        function renderCurrentSlide() {
+            const viewport = document.getElementById('slideContent');
+            viewport.innerHTML = createSlideHTML(slidesData[currentSlide]);
+            document.getElementById('slideIndicator').innerText = `Slide ${currentSlide + 1} / ${slidesData.length}`;
+
+            // Update Thumbnails styling
+            const thumbs = document.querySelectorAll('.thumb-btn');
+            thumbs.forEach((thumb, idx) => {
+                if (idx === currentSlide) {
+                    thumb.classList.add('border-pf-yellow', 'bg-zinc-800');
+                    thumb.classList.remove('border-zinc-700', 'bg-zinc-900');
+                } else {
+                    thumb.classList.remove('border-pf-yellow', 'bg-zinc-800');
+                    thumb.classList.add('border-zinc-700', 'bg-zinc-900');
+                }
+            });
+        }
+
+        // Change Slide Logic
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= slidesData.length) currentSlide = slidesData.length - 1;
+            renderCurrentSlide();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            renderCurrentSlide();
+        }
+
+        // Toggle View Mode (Carousel vs Print Scrollable)
+        function toggleViewMode() {
+            isScrollView = !isScrollView;
+            const carouselView = document.getElementById('carouselView');
+            const printView = document.getElementById('printView');
+            const viewModeText = document.getElementById('viewModeText');
+
+            if (isScrollView) {
+                carouselView.classList.add('hidden');
+                printView.classList.remove('hidden');
+                viewModeText.innerText = "Carousel View";
+
+                // Populate print view with all slides
+                printView.innerHTML = slidesData.map(slide => createSlideHTML(slide, true)).join('');
+            } else {
+                carouselView.classList.remove('hidden');
+                printView.classList.add('hidden');
+                viewModeText.innerText = "Scroll View";
+                renderCurrentSlide();
+            }
+        }
+
+        // Keyboard Arrow Navigation
+        document.addEventListener('keydown', (e) => {
+            if (isScrollView) return;
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                changeSlide(-1);
+            }
+        });
+
+        // Initialize presentation on load
+        window.onload = function() {
+            renderCurrentSlide();
+        };
+    </script>
+</body>
+</html>
